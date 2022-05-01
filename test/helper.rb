@@ -2,3 +2,5 @@
 
 require "minitest/autorun"
 require "minitest/focus"
+
+require "simple_web_server"
