@@ -1,8 +1,10 @@
+Under development
+
 # SimpleWebServer
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/simple_web_server`. To experiment with that code, run `bin/console` for an interactive prompt.
+SimpleWebServer is HTTP 1.1 web server for [Rack](https://github.com/rack/rack).
 
-TODO: Delete this and the text above, and describe your gem
+This gem is toy project for studying HTTP 1.1.
 
 ## Installation
 
