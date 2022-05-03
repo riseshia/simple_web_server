@@ -1,17 +1,23 @@
 # frozen_string_literal: true
 
 module SimpleWebServer
-  # raw_request: String -> Request
+  # RequestParser is for parsing request message
   module RequestParser
     module_function
 
+    # @param raw_request [String]
+    # @return [SimpleWebServer::Request]
     def parse(raw_request)
       start_line, *rest_lines = raw_request.each_line.map(&:strip)
 
       start_line_info = parse_start_line(start_line)
       info = parse_header_and_body(rest_lines)
 
-      Request.new(method: start_line_info[:method], headers: info[:headers])
+      Request.new(
+        method: start_line_info[:method],
+        headers: info[:headers],
+        body: info[:body]
+      )
     end
 
     private_class_method def parse_start_line(line)
@@ -31,7 +37,13 @@ module SimpleWebServer
 
     private_class_method def parse_header_and_body(lines)
       headers = lines.take_while { |l| l.size > 0 }
-      body = lines[headers.size..].join("\n")
+      body_start_lineno = headers.size + 1
+      body =
+        if lines[body_start_lineno]
+          lines[body_start_lineno..].join("\n")
+        else
+          nil
+        end
 
       { headers: parse_header_lines(headers), body: body }
     end
