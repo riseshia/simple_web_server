@@ -16,10 +16,6 @@ class TestRequestParser < Minitest::Test
     assert_nil request.body
   end
 
-  def test_head_parse
-    skip
-  end
-
   def test_post_with_body_parse
     doc = <<~END_OF_MESSAGE
       POST /books HTTP/1.1
@@ -37,24 +33,8 @@ class TestRequestParser < Minitest::Test
     assert_equal request.body, "title=some_title"
   end
 
-  def test_put_parse
-    skip
-  end
-
-  def test_delete_parse
-    skip
-  end
-
-  def test_options_parse
-    skip
-  end
-
   def test_trace_parse
     skip "should I...?"
-  end
-
-  def test_custom_method_parse
-    skip
   end
 
   def test_http10_return_status505
