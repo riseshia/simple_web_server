@@ -12,7 +12,10 @@ class TestRequestParser < Minitest::Test
 
     request = SimpleWebServer::RequestParser.parse(doc)
     assert_equal request.method, "GET"
-    assert_equal request.headers, { "Accept" => "text/*", "Host" => "www.example.com" }
+    assert_equal request.headers, {
+      "Accept" => "text/*",
+      "Host" => "www.example.com"
+    }
     assert_nil request.body
   end
 
@@ -29,7 +32,12 @@ class TestRequestParser < Minitest::Test
 
     request = SimpleWebServer::RequestParser.parse(doc)
     assert_equal request.method, "POST"
-    assert_equal request.headers, { "Accept" => "text/*", "Host" => "www.example.com", "Content-type" => "text/plain", "Content-length" => "17" }
+    assert_equal request.headers, {
+      "Accept" => "text/*",
+      "Host" => "www.example.com",
+      "Content-type" => "text/plain",
+      "Content-length" => "17"
+    }
     assert_equal request.body, "title=some_title"
   end
 
