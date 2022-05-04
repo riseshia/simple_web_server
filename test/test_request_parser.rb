@@ -5,7 +5,7 @@ require_relative "helper"
 class TestRequestParser < Minitest::Test
   def test_get_parse
     doc = <<~END_OF_MESSAGE
-      GET /get.text HTTP/1.1
+      GET /get.text?query_string HTTP/1.1
       Accept: text/*
       Host: www.example.com
     END_OF_MESSAGE
@@ -16,6 +16,8 @@ class TestRequestParser < Minitest::Test
       "Accept" => "text/*",
       "Host" => "www.example.com"
     }
+    assert_equal request.path, "/get.text"
+    assert_equal request.query_string, "query_string"
     assert_nil request.body
   end
 
@@ -38,6 +40,8 @@ class TestRequestParser < Minitest::Test
       "Content-type" => "text/plain",
       "Content-length" => "17"
     }
+    assert_equal request.path, "/books"
+    assert_nil request.query_string
     assert_equal request.body, "title=some_title"
   end
 

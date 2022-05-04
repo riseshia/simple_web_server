@@ -16,6 +16,8 @@ module SimpleWebServer
       Request.new(
         method: start_line_info[:method],
         headers: info[:headers],
+        path: start_line_info[:path],
+        query_string: start_line_info[:query_string],
         body: info[:body]
       )
     end
@@ -26,13 +28,24 @@ module SimpleWebServer
         raise SimpleWebServer::ParseError, "Which message has invalid start line."
       end
 
-      method, path, http_version = tokens
+      method, path_with_query_string, http_version = tokens
+      path = path_with_query_string.split("?").first
+      query_string_start_idx = path.size + 1
+      query_string =
+        if query_string_start_idx < path_with_query_string.size
+          path_with_query_string[query_string_start_idx..]
+        end
 
       if http_version != "HTTP/1.1"
         raise SimpleWebServer::ParseError, "Which message requires unsupported HTTP version."
       end
 
-      { method: method, path: path, http_version: http_version }
+      {
+        method: method,
+        path: path,
+        query_string: query_string,
+        http_version: http_version
+      }
     end
 
     private_class_method def parse_header_and_body(lines)
