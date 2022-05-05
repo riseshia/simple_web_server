@@ -10,7 +10,7 @@ class TestRequestParser < Minitest::Test
       Host: www.example.com
     END_OF_MESSAGE
 
-    request = SimpleWebServer::RequestParser.parse(doc)
+    request = SimpleWebServer::RequestParser.parse(StringIO.new(doc, "rb"))
     assert_equal request.method, "GET"
     assert_equal request.headers, {
       "Accept" => "text/*",
@@ -32,7 +32,7 @@ class TestRequestParser < Minitest::Test
       title=some_title
     END_OF_MESSAGE
 
-    request = SimpleWebServer::RequestParser.parse(doc)
+    request = SimpleWebServer::RequestParser.parse(StringIO.new(doc, "rb"))
     assert_equal request.method, "POST"
     assert_equal request.headers, {
       "Accept" => "text/*",
@@ -57,7 +57,7 @@ class TestRequestParser < Minitest::Test
     END_OF_MESSAGE
 
     e = assert_raises(SimpleWebServer::ParseError) do
-      SimpleWebServer::RequestParser.parse(doc)
+      SimpleWebServer::RequestParser.parse(StringIO.new(doc, "rb"))
     end
     assert_equal e.message, "Which message requires unsupported HTTP version."
   end

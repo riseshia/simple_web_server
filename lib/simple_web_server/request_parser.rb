@@ -5,7 +5,7 @@ module SimpleWebServer
   module RequestParser
     module_function
 
-    # @param raw_request [String]
+    # @param raw_request [IO]
     # @return [SimpleWebServer::Request]
     def parse(raw_request)
       start_line, *rest_lines = raw_request.each_line.map(&:strip)
