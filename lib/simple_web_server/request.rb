@@ -43,21 +43,17 @@ module SimpleWebServer
       }.merge(http_headers)
     end
 
+    CONTENT_HEADERS = %w[CONTENT_TYPE CONTENT_LENGTH].freeze
     private def http_headers
-      h = @headers.transform_keys do |key|
-        "HTTP_" + key.gsub("-", "_").upcase
-      end
-      %w[HTTP_CONTENT_TYPE HTTP_CONTENT_LENGTH].each do |key|
-        if h.key?(key)
-          v = h.delete(key)
-          trimmed_key = key[5..]
-          h[trimmed_key] = v
+      @headers.transform_keys do |key|
+        upcased_key = key.gsub("-", "_").upcase
+
+        if CONTENT_HEADERS.include?(upcased_key)
+          upcased_key
         else
-          next
+          "HTTP_#{upcased_key}"
         end
       end
-
-      h
     end
   end
 end
