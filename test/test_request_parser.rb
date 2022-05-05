@@ -45,10 +45,6 @@ class TestRequestParser < Minitest::Test
     assert_equal("title=some_title", request.body)
   end
 
-  def test_trace_parse
-    skip "should I...?"
-  end
-
   def test_http10_return_status505
     doc = <<~END_OF_MESSAGE
       GET /get.text HTTP/1.0
