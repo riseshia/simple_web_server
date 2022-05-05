@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "logger"
+
 module SimpleWebServer
   # Request class
   class Request
@@ -34,6 +36,7 @@ module SimpleWebServer
         Rack::RACK_VERSION => Rack::VERSION,
         Rack::RACK_INPUT => StringIO.new(@body || "", "rb"),
         Rack::RACK_ERRORS => $stderr,
+        Rack::RACK_LOGGER => Logger.new($stdout),
         Rack::RACK_MULTITHREAD => false,
         Rack::RACK_MULTIPROCESS => false,
         Rack::RACK_RUNONCE => false,
