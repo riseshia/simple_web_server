@@ -11,13 +11,13 @@ class TestRequestParser < Minitest::Test
     END_OF_MESSAGE
 
     request = SimpleWebServer::RequestParser.parse(StringIO.new(doc, "rb"))
-    assert_equal request.method, "GET"
-    assert_equal request.headers, {
-      "Accept" => "text/*",
-      "Host" => "www.example.com"
-    }
-    assert_equal request.path, "/get.text"
-    assert_equal request.query_string, "query_string"
+    assert_equal("GET", request.method)
+    assert_equal({
+                   "Accept" => "text/*",
+                   "Host" => "www.example.com"
+                 }, request.headers)
+    assert_equal("/get.text", request.path)
+    assert_equal("query_string", request.query_string)
     assert_nil request.body
   end
 
@@ -33,16 +33,16 @@ class TestRequestParser < Minitest::Test
     END_OF_MESSAGE
 
     request = SimpleWebServer::RequestParser.parse(StringIO.new(doc, "rb"))
-    assert_equal request.method, "POST"
-    assert_equal request.headers, {
-      "Accept" => "text/*",
-      "Host" => "www.example.com",
-      "Content-type" => "text/plain",
-      "Content-length" => "17"
-    }
-    assert_equal request.path, "/books"
+    assert_equal("POST", request.method)
+    assert_equal({
+                   "Accept" => "text/*",
+                   "Host" => "www.example.com",
+                   "Content-type" => "text/plain",
+                   "Content-length" => "17"
+                 }, request.headers)
+    assert_equal("/books", request.path)
     assert_nil request.query_string
-    assert_equal request.body, "title=some_title"
+    assert_equal("title=some_title", request.body)
   end
 
   def test_trace_parse
@@ -59,6 +59,6 @@ class TestRequestParser < Minitest::Test
     e = assert_raises(SimpleWebServer::ParseError) do
       SimpleWebServer::RequestParser.parse(StringIO.new(doc, "rb"))
     end
-    assert_equal e.message, "Which message requires unsupported HTTP version."
+    assert_equal("Which message requires unsupported HTTP version.", e.message)
   end
 end

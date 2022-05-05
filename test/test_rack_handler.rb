@@ -40,8 +40,8 @@ class TestRackHandler < Minitest::Test
       "CONTENT_LENGTH" => "10"
     }
 
-    assert_equal(res[0], expected_status)
-    assert_equal(res[1], expected_headers)
-    assert_equal(res_body, expected_body)
+    assert_equal(expected_status, res[0])
+    assert_equal(expected_headers, res[1])
+    assert_equal(expected_body, res_body)
   end
 end
