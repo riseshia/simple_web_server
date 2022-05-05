@@ -26,7 +26,7 @@ class TestRackHandler < Minitest::Test
     expected_status = 200
     expected_headers = {
       "content-type" => "text/json",
-      "content-length" => "455"
+      "content-length" => "410"
     }
     expected_body = {
       "REQUEST_METHOD" => "GET",
