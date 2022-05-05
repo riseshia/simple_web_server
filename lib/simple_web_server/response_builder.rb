@@ -2,7 +2,7 @@
 
 module SimpleWebServer
   # ResponseBuilder is for building response message
-  module ResponseBuilder
+  class ResponseBuilder
     REASON_PHRASE = {
       100 => "Continue",
       101 => "Switching Protocols",
@@ -50,11 +50,9 @@ module SimpleWebServer
       505 => "HTTP Version Not Supported"
     }.freeze
 
-    module_function
-
     # @param response [SimpleWebServer::Response]
     # @return [String]
-    def build(response)
+    def self.build(response)
       rows = []
       rows << "#{response.http_version} #{response.status_code} #{REASON_PHRASE[response.status_code]}"
 

@@ -2,12 +2,10 @@
 
 module SimpleWebServer
   # RequestParser is for parsing request message
-  module RequestParser
-    module_function
-
+  class RequestParser
     # @param raw_request [IO]
     # @return [SimpleWebServer::Request]
-    def parse(raw_request)
+    def self.parse(raw_request)
       start_line, *rest_lines = raw_request.each_line.map(&:strip)
 
       start_line_info = parse_start_line(start_line)
@@ -22,7 +20,7 @@ module SimpleWebServer
       )
     end
 
-    private_class_method def parse_start_line(line)
+    private_class_method def self.parse_start_line(line)
       tokens = line.split
       if tokens.size != 3
         raise SimpleWebServer::ParseError, "Which message has invalid start line."
@@ -48,7 +46,7 @@ module SimpleWebServer
       }
     end
 
-    private_class_method def parse_header_and_body(lines)
+    private_class_method def self.parse_header_and_body(lines)
       headers = lines.take_while { |l| l.size > 0 }
       body_start_lineno = headers.size + 1
       body =
@@ -61,7 +59,7 @@ module SimpleWebServer
       { headers: parse_header_lines(headers), body: body }
     end
 
-    private_class_method def parse_header_lines(header_lines)
+    private_class_method def self.parse_header_lines(header_lines)
       header_lines.each_with_object({}) do |line, obj|
         tokens = line.split(":")
         if tokens.size < 2

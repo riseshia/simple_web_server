@@ -48,10 +48,12 @@ module SimpleWebServer
         "HTTP_" + key.gsub("-", "_").upcase
       end
       %w[HTTP_CONTENT_TYPE HTTP_CONTENT_LENGTH].each do |key|
-        if h.has_key?(key)
+        if h.key?(key)
           v = h.delete(key)
           trimmed_key = key[5..]
           h[trimmed_key] = v
+        else
+          next
         end
       end
 

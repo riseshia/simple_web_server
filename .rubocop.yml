@@ -3,6 +3,12 @@ AllCops:
   SuggestExtensions: false
   NewCops: enable
 
+Style/GuardClause:
+  Enabled: false
+
+Style/AccessModifierDeclarations:
+  EnforcedStyle: inline
+
 Style/EmptyElse:
   Enabled: false
 
@@ -28,3 +34,5 @@ Layout/LineLength:
 
 Metrics/MethodLength:
   Max: 30
+  Exclude:
+    - 'test/*.rb'

@@ -3,12 +3,10 @@
 module Rack
   module Handler
     # Rack handler for SimpleWebServer
-    module SimpleWebServer
-      module_function
-
+    class SimpleWebServer
       # @param app [#call] Rack middleware
       # @param _options [kargs]
-      def run(app, **_options)
+      def self.run(app, **_options)
         serve(app)
       end
     end
