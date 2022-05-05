@@ -40,7 +40,22 @@ module SimpleWebServer
         Rack::RACK_URL_SCHEME => "http",
         Rack::SCRIPT_NAME => "",
         Rack::PATH_INFO => @path
-      }
+      }.merge(http_headers)
+    end
+
+    private def http_headers
+      h = @headers.transform_keys do |key|
+        "HTTP_" + key.gsub("-", "_").upcase
+      end
+      %w[HTTP_CONTENT_TYPE HTTP_CONTENT_LENGTH].each do |key|
+        if h.has_key?(key)
+          v = h.delete(key)
+          trimmed_key = key[5..]
+          h[trimmed_key] = v
+        end
+      end
+
+      h
     end
   end
 end

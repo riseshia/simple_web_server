@@ -12,7 +12,8 @@ class TestRackHandler < Minitest::Test
       method: "GET",
       headers: {
         "Accept" => "text/*",
-        "Host" => "www.example.com"
+        "Host" => "www.example.com",
+        "Content-Length" => "10"
       },
       path: "/books",
       query_string: "q=Title",
@@ -25,7 +26,7 @@ class TestRackHandler < Minitest::Test
     expected_status = 200
     expected_headers = {
       "content-type" => "text/json",
-      "content-length" => "335"
+      "content-length" => "455"
     }
     expected_body = {
       "REQUEST_METHOD" => "GET",
@@ -33,7 +34,10 @@ class TestRackHandler < Minitest::Test
       "QUERY_STRING" => "q=Title",
       "SCRIPT_NAME" => "",
       "PATH_INFO" => "/books",
-      "test.postdata" => "some body"
+      "test.postdata" => "some body",
+      "HTTP_ACCEPT" => "text/*",
+      "HTTP_HOST" => "www.example.com",
+      "CONTENT_LENGTH" => "10"
     }
 
     assert_equal(res[0], expected_status)
