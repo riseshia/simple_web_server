@@ -3,13 +3,13 @@
 module SimpleWebServer
   # Response class
   class Response
-    attr_reader :http_version, :status_code, :method, :headers, :body
+    attr_accessor :http_version, :status_code, :method, :headers, :body
 
     def initialize(
-      http_version:,
-      status_code:,
-      headers:,
-      body:
+      http_version: nil,
+      status_code: nil,
+      headers: nil,
+      body: nil
     )
       @http_version = http_version
       @status_code = status_code
