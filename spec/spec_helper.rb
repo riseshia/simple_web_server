@@ -27,6 +27,20 @@ module Helpers
       msg.gsub("\n", SimpleWebServer::Utils::CRLF)
     )
   end
+
+  def crlf(str, end_with_crlf = false) # rubocop:disable Style/OptionalBooleanParameter
+    new_str = str.gsub("\n", SimpleWebServer::Utils::CRLF)
+
+    if end_with_crlf
+      if new_str.end_with?(SimpleWebServer::Utils::CRLF)
+        new_str
+      else
+        "#{new_str}#{SimpleWebServer::Utils::CRLF}"
+      end
+    else
+      new_str.strip
+    end
+  end
 end
 
 RSpec.configure do |config|

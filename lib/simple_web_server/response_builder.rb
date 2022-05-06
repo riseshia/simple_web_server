@@ -57,7 +57,13 @@ module SimpleWebServer
       rows << "#{response.http_version} #{response.status_code} #{REASON_PHRASE[response.status_code]}"
 
       response.headers.each do |k, v|
-        rows << "#{k}: #{v}"
+        if v.is_a? Array
+          v.each do |pv|
+            rows << "#{k}: #{pv}"
+          end
+        else
+          rows << "#{k}: #{v}"
+        end
       end
 
       rows << ""
