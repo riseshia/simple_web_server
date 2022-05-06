@@ -5,20 +5,23 @@ require "logger"
 module SimpleWebServer
   # Request class
   class Request
-    attr_reader :method, :headers, :path, :query_string, :body
+    attr_accessor :http_version, :method, :headers, :path, :query_string, :body
 
+    # @param http_version [String]
     # @param method [String]
     # @param headers [Hash<String, String>]
     # @param path [String]
     # @param query_string [String]
     # @param body [String]
-    def initialize(
-      method:,
-      headers:,
-      path:,
-      query_string:,
-      body:
+    def initialize( # rubocop:disable Metrics/ParameterLists
+      http_version: nil,
+      method: nil,
+      headers: nil,
+      path: nil,
+      query_string: nil,
+      body: nil
     )
+      @http_version = http_version
       @method = method
       @headers = headers
       @path = path

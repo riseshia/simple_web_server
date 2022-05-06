@@ -18,8 +18,7 @@ module Rack
         res = ::SimpleWebServer::Response.new
 
         res.from_call(*@app.call(req.to_env))
-        res.http_version = "HTTP/1.1"
-
+        res.http_version = req.http_version
 
         ::SimpleWebServer::ResponseBuilder.build(res)
       end

@@ -12,6 +12,7 @@ module SimpleWebServer
       info = parse_header_and_body(rest_lines)
 
       Request.new(
+        http_version: start_line_info[:http_version],
         method: start_line_info[:method],
         headers: info[:headers],
         path: start_line_info[:path],
