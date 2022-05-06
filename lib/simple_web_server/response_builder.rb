@@ -63,7 +63,7 @@ module SimpleWebServer
       rows << ""
 
       if response.body
-        rows << response.body
+        rows << response.body.read
       end
 
       rows.join(SimpleWebServer::Utils::CRLF)
