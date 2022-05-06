@@ -8,6 +8,7 @@ require_relative "simple_web_server/request"
 require_relative "simple_web_server/request_parser"
 require_relative "simple_web_server/response"
 require_relative "simple_web_server/response_builder"
+require_relative "rack/handlers/simple_web_server"
 
 module SimpleWebServer
   SERVER_NAME = "SimpleWebServer/#{SimpleWebServer::VERSION}"

@@ -36,3 +36,9 @@ Metrics/MethodLength:
   Max: 30
   Exclude:
     - 'test/*.rb'
+
+Metrics/AbcSize:
+  Max: 30
+
+Metrics/PerceivedComplexity:
+  Max: 10
