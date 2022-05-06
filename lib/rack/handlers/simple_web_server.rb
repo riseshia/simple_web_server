@@ -19,6 +19,7 @@ module Rack
 
         status, headers, body = @app.call(req.to_env)
 
+        res.http_version = "HTTP/1.1"
         res.status_code = status.to_i
         res.headers = headers.transform_keys do |key|
           if key == Rack::RACK_HIJACK
