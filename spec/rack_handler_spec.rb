@@ -10,6 +10,7 @@ describe "Rack::Handler::SimpleWebServer" do
   end
 
   it "returns response message with no body" do
+    skip
     @body = []
 
     doc = <<~END_OF_MESSAGE.split("\n").join(SimpleWebServer::Utils::CRLF)
@@ -31,6 +32,7 @@ describe "Rack::Handler::SimpleWebServer" do
   end
 
   it "returns response message with enumerable body" do
+    skip
     @body = ["hogehoge"]
 
     doc = <<~END_OF_MESSAGE.split("\n").join(SimpleWebServer::Utils::CRLF)

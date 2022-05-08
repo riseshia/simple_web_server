@@ -24,8 +24,8 @@ describe SimpleWebServer::RequestParser do
       POST /books HTTP/1.1
       Accept: text/*
       Host: www.example.com
-      Content-type: text/plain
-      Content-length: 17
+      Content-Type: text/plain
+      Content-Length: 16
 
       title=some_title
     END_OF_MESSAGE
@@ -35,12 +35,12 @@ describe SimpleWebServer::RequestParser do
     expect(request.headers).to eq({
                                     "Accept" => "text/*",
                                     "Host" => "www.example.com",
-                                    "Content-type" => "text/plain",
-                                    "Content-length" => "17"
+                                    "Content-Type" => "text/plain",
+                                    "Content-Length" => "16"
                                   })
     expect(request.path).to eq("/books")
     expect(request.query_string).to be_nil
-    expect(request.body).to eq("title=some_title")
+    expect(request.body.read).to eq("title=some_title")
   end
 
   it "raises error with http 1.0 request" do

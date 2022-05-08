@@ -6,19 +6,27 @@ module SimpleWebServer
     # @param raw_request [IO]
     # @return [SimpleWebServer::Request]
     def self.parse(raw_request)
-      start_line, *rest_lines = raw_request.each_line.map(&:strip)
-
+      start_line = raw_request.gets
       start_line_info = parse_start_line(start_line)
-      info = parse_header_and_body(rest_lines)
 
-      Request.new(
+      req = Request.new(
         http_version: start_line_info[:http_version],
         method: start_line_info[:method],
-        headers: info[:headers],
         path: start_line_info[:path],
-        query_string: start_line_info[:query_string],
-        body: info[:body]
+        query_string: start_line_info[:query_string]
       )
+
+      header_rows = raw_request.take_while { |l| l.strip.size > 0 }
+      headers = parse_header_lines(header_rows)
+      req.headers = headers
+
+      content_length = req.headers["Content-Length"].to_i
+
+      if content_length > 0
+        req.body = StringIO.new(raw_request.read(content_length))
+      end
+
+      req
     end
 
     private_class_method def self.parse_start_line(line)
@@ -45,19 +53,6 @@ module SimpleWebServer
         query_string: query_string,
         http_version: http_version
       }
-    end
-
-    private_class_method def self.parse_header_and_body(lines)
-      headers = lines.take_while { |l| l.size > 0 }
-      body_start_lineno = headers.size + 1
-      body =
-        if lines[body_start_lineno]
-          lines[body_start_lineno..].join("\n")
-        else
-          nil
-        end
-
-      { headers: parse_header_lines(headers), body: body }
     end
 
     private_class_method def self.parse_header_lines(header_lines)

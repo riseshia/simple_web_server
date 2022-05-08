@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "simple_web_server"
+
+app = proc {
+  [200, { "Content-Type" => "text/html", "Content-Length" => "0" }, []]
+}
+Rack::Handler::SimpleWebServer.run(app)

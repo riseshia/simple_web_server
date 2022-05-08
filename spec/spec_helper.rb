@@ -24,7 +24,7 @@ end
 module Helpers
   def req(msg)
     SimpleWebServer::RequestParser.parse(
-      msg.gsub("\n", SimpleWebServer::Utils::CRLF)
+      StringIO.new(msg.gsub("\n", SimpleWebServer::Utils::CRLF))
     )
   end
 
