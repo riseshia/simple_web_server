@@ -5,6 +5,10 @@ module Rack
   module Handler
     # Rack handler for SimpleWebServer
     class SimpleWebServer
+      class << self
+        attr_writer :app
+      end
+
       # @param app [#call] Rack middleware
       # @param _options [kargs]
       def self.run(app, **_options)

@@ -6,44 +6,44 @@ describe "Rack::Handler::SimpleWebServer" do
     app = proc {
       [200, { "Content-Type" => "text/html", "Content-Length" => @body.map(&:size).sum.to_s }, @body]
     }
-    Rack::Handler::SimpleWebServer.run(app)
+    Rack::Handler::SimpleWebServer.app = app
   end
 
   it "returns response message with no body" do
-    skip
     @body = []
 
-    doc = <<~END_OF_MESSAGE.split("\n").join(SimpleWebServer::Utils::CRLF)
+    doc = req_io(<<~END_OF_MESSAGE)
       GET /get.text?query_string HTTP/1.1
       Accept: text/*
       Host: www.example.com
+
     END_OF_MESSAGE
 
     res_msg = Rack::Handler::SimpleWebServer.process(doc)
 
-    expected = <<~END_OF_MESSAGE.split("\n").join(SimpleWebServer::Utils::CRLF)
+    expected = req_io(<<~END_OF_MESSAGE)
       HTTP/1.1 200 OK
       Content-Type: text/html
       Content-Length: 0
-    END_OF_MESSAGE
-    expected += SimpleWebServer::Utils::CRLF * 2
 
-    expect(res_msg).to eq(expected)
+    END_OF_MESSAGE
+
+    expect(res_msg).to eq(expected.read)
   end
 
   it "returns response message with enumerable body" do
-    skip
     @body = ["hogehoge"]
 
-    doc = <<~END_OF_MESSAGE.split("\n").join(SimpleWebServer::Utils::CRLF)
+    doc = req_io(<<~END_OF_MESSAGE)
       GET /get.text?query_string HTTP/1.1
       Accept: text/*
       Host: www.example.com
+
     END_OF_MESSAGE
 
     res_msg = Rack::Handler::SimpleWebServer.process(doc)
 
-    expected = <<~END_OF_MESSAGE.split("\n").join(SimpleWebServer::Utils::CRLF)
+    expected = req_io(<<~END_OF_MESSAGE.strip)
       HTTP/1.1 200 OK
       Content-Type: text/html
       Content-Length: 8
@@ -51,6 +51,6 @@ describe "Rack::Handler::SimpleWebServer" do
       hogehoge
     END_OF_MESSAGE
 
-    expect(res_msg).to eq(expected)
+    expect(res_msg).to eq(expected.read)
   end
 end
