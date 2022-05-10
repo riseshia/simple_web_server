@@ -51,28 +51,31 @@ module SimpleWebServer
     }.freeze
 
     # @param response [SimpleWebServer::Response]
-    # @return [String]
+    # @return [IO]
     def self.build(response)
-      rows = []
-      rows << "#{response.http_version} #{response.status_code} #{REASON_PHRASE[response.status_code]}"
+      io = StringIO.new
+      io << "#{response.http_version} #{response.status_code} #{REASON_PHRASE[response.status_code]}"
+      io << SimpleWebServer::Utils::CRLF
 
       response.headers.each do |k, v|
         if v.is_a? Array
           v.each do |pv|
-            rows << "#{k}: #{pv}"
+            io << "#{k}: #{pv}"
+            io << SimpleWebServer::Utils::CRLF
           end
         else
-          rows << "#{k}: #{v}"
+          io << "#{k}: #{v}"
+          io << SimpleWebServer::Utils::CRLF
         end
       end
 
-      rows << ""
+      io << SimpleWebServer::Utils::CRLF
 
       if response.body
-        rows << response.body.read
+        io << response.body.read
       end
 
-      rows.join(SimpleWebServer::Utils::CRLF)
+      io.tap(&:rewind)
     end
   end
 end

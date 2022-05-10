@@ -16,9 +16,10 @@ describe SimpleWebServer::ResponseBuilder do
       Content-Type: text/html
       Content-Length: 0
       Location: /books
+
     END_OF_MESSAGE
 
-    expect(actual_msg).to eq(expected_msg)
+    expect(actual_msg.read).to eq(expected_msg)
   end
 
   it "processes response message with body" do
@@ -39,7 +40,7 @@ describe SimpleWebServer::ResponseBuilder do
       <html>Hello!</html>
     END_OF_MESSAGE
 
-    expect(actual_msg).to eq(expected_msg)
+    expect(actual_msg.read).to eq(expected_msg)
   end
 
   it "processes response message with multiple values header" do
@@ -63,6 +64,6 @@ describe SimpleWebServer::ResponseBuilder do
       <html></html>
     END_OF_MESSAGE
 
-    expect(actual_msg).to eq(expected_msg)
+    expect(actual_msg.read).to eq(expected_msg)
   end
 end

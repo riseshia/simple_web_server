@@ -28,7 +28,7 @@ describe "Rack::Handler::SimpleWebServer" do
 
     END_OF_MESSAGE
 
-    expect(res_msg).to eq(expected.read)
+    expect(res_msg.read).to eq(expected.read)
   end
 
   it "returns response message with enumerable body" do
@@ -51,6 +51,6 @@ describe "Rack::Handler::SimpleWebServer" do
       hogehoge
     END_OF_MESSAGE
 
-    expect(res_msg).to eq(expected.read)
+    expect(res_msg.read).to eq(expected.read)
   end
 end
