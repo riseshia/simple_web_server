@@ -27,7 +27,7 @@ module Helpers
   end
 
   def req_io(msg)
-    StringIO.new(msg.gsub("\n", SimpleWebServer::Utils::CRLF))
+    StringIO.new(crlf(msg))
   end
 
   def crlf(str, end_with_crlf = false) # rubocop:disable Style/OptionalBooleanParameter

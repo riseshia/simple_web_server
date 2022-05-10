@@ -21,14 +21,14 @@ describe "Rack::Handler::SimpleWebServer" do
 
     res_msg = Rack::Handler::SimpleWebServer.process(doc)
 
-    expected = req_io(<<~END_OF_MESSAGE)
+    expected = crlf(<<~END_OF_MESSAGE, true)
       HTTP/1.1 200 OK
       Content-Type: text/html
       Content-Length: 0
 
     END_OF_MESSAGE
 
-    expect(res_msg.read).to eq(expected.read)
+    expect(res_msg.read).to eq(expected)
   end
 
   it "returns response message with enumerable body" do
@@ -43,7 +43,7 @@ describe "Rack::Handler::SimpleWebServer" do
 
     res_msg = Rack::Handler::SimpleWebServer.process(doc)
 
-    expected = req_io(<<~END_OF_MESSAGE.strip)
+    expected = crlf(<<~END_OF_MESSAGE.strip)
       HTTP/1.1 200 OK
       Content-Type: text/html
       Content-Length: 8
@@ -51,6 +51,6 @@ describe "Rack::Handler::SimpleWebServer" do
       hogehoge
     END_OF_MESSAGE
 
-    expect(res_msg.read).to eq(expected.read)
+    expect(res_msg.read).to eq(expected)
   end
 end
