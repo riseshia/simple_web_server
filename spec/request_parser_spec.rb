@@ -11,8 +11,8 @@ describe SimpleWebServer::RequestParser do
 
     expect(request.method).to eq("GET")
     expect(request.headers).to eq({
-                                    "Accept" => "text/*",
-                                    "Host" => "www.example.com"
+                                    "accept" => "text/*",
+                                    "host" => "www.example.com"
                                   })
     expect(request.path).to eq("/get.text")
     expect(request.query_string).to eq("query_string")
@@ -33,10 +33,10 @@ describe SimpleWebServer::RequestParser do
 
     expect(request.method).to eq("POST")
     expect(request.headers).to eq({
-                                    "Accept" => "text/*",
-                                    "Host" => "www.example.com",
-                                    "Content-Type" => "text/plain",
-                                    "Content-Length" => "16"
+                                    "accept" => "text/*",
+                                    "host" => "www.example.com",
+                                    "content-type" => "text/plain",
+                                    "content-length" => "16"
                                   })
     expect(request.path).to eq("/books")
     expect(request.query_string).to be_nil

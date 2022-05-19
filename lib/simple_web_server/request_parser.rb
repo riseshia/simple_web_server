@@ -3,6 +3,10 @@
 module SimpleWebServer
   # RequestParser is for parsing request message
   class RequestParser
+    module Header
+      CONTENT_LENGTH = "content-length"
+    end
+
     # @param raw_request [IO]
     # @return [SimpleWebServer::Request]
     def self.parse(raw_request)
@@ -20,7 +24,7 @@ module SimpleWebServer
       headers = parse_header_lines(header_rows)
       req.headers = headers
 
-      content_length = req.headers["Content-Length"].to_i
+      content_length = req.headers["content-length"].to_i
 
       if content_length > 0
         req.body = StringIO.new(raw_request.read(content_length))
@@ -62,7 +66,8 @@ module SimpleWebServer
           raise SimpleWebServer::ParseError, "Some header has invalid format."
         end
 
-        key = tokens.shift
+        # Normalize header key
+        key = tokens.shift.downcase
         value = tokens.join(":").strip
         obj[key] = value
       end
