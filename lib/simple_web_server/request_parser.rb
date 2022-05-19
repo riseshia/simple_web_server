@@ -24,7 +24,7 @@ module SimpleWebServer
       headers = parse_header_lines(header_rows)
       req.headers = headers
 
-      content_length = req.headers["content-length"].to_i
+      content_length = req.headers[Header::CONTENT_LENGTH].to_i
 
       if content_length > 0
         req.body = StringIO.new(raw_request.read(content_length))
