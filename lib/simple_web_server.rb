@@ -4,6 +4,7 @@ require "rack"
 
 require_relative "simple_web_server/version"
 require_relative "simple_web_server/utils"
+require_relative "simple_web_server/configuration"
 require_relative "simple_web_server/request"
 require_relative "simple_web_server/request_parser"
 require_relative "simple_web_server/response"

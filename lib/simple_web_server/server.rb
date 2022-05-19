@@ -1,19 +1,21 @@
 # frozen_string_literal: true
 
 require "socket"
+require "uri"
 
 module SimpleWebServer
   # TCP Server
   # XXX: Support connection by socket
   class Server
-    def initialize(rack_handler)
+    def initialize(rack_handler, config)
       @shutdown_server = false
       @rack_handler = rack_handler
+      @config = config
     end
 
     def start_server
-      server = TCPServer.new("127.0.0.1", 3000)
-      # Signal.trap(:INT) { @shutdown_server = true }
+      uri = URI.parse(@config.bind)
+      server = TCPServer.new(uri.host, uri.port)
 
       loop do
         socket = server.accept

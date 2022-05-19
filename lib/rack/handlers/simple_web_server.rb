@@ -13,7 +13,10 @@ module Rack
       # @param _options [kargs]
       def self.run(app, **_options)
         @app = app
-        @server = ::SimpleWebServer::Server.new(self)
+
+        config = ::SimpleWebServer::Configuration.new
+        @server = ::SimpleWebServer::Server.new(self, config)
+        @server.start_server
       end
 
       # @param raw_request [IO]
