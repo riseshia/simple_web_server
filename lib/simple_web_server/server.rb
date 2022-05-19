@@ -20,7 +20,7 @@ module SimpleWebServer
       loop do
         socket = server.accept
         res = @rack_handler.process(socket)
-        socket.write(res)
+        socket.write(res.read)
         socket.close
 
         break if @shutdown_server
